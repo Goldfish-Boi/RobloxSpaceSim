@@ -1,3 +1,6 @@
+--!strict
+--!optimize 2
+
 local adjustValueEvent = game.ReplicatedStorage.AdjustValue
 local timeScale = script.Parent.TimeScale
 local sizeScale = script.Parent.SizeScale
