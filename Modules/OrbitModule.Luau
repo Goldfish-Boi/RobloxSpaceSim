@@ -1,5 +1,9 @@
+--!strict
+--!optimize 2
+--!native
+
 --Code Made By Tomroblox54321 and IlyasTawawe
---Eccentricty Code made tweaked by Creeperman16487
+--Eccentricty Code made tweaked by Creeperman16487, modified further by Cheaty123457
 --All gave permission to use code in the module
 --Hope you Enjoy!
 
@@ -21,20 +25,23 @@ local PIMath = math.pi
 local TAU = 2*PIMath
 
 local eccentricityValues = require(script.EccentricityValues)
+local startTime:number
 
 --Getting HeartbeatWait
 local HeartbeatWait = RunService.Heartbeat:Wait()
 
-function OrbitModule:TidalLocking(PlanetLocked : PVInstance, PlanetGettingLockedTo : PVInstance, TextureAdjustmentX, TextureAdjustmentZ)
+function OrbitModule:TidalLocking(PlanetLocked : BasePart, PlanetGettingLockedTo : BasePart, TextureAdjustmentX, TextureAdjustmentZ)
 	assert(PlanetLocked ~= PlanetGettingLockedTo, "Cannot lock itself, PlanetLocked and PlanetGettingLockedTo should be different")
 	
 	local HeartbeatConnection
 	HeartbeatConnection = RunService.Heartbeat:Connect(function(DeltaTime)
 		
 		if not (PlanetLocked or PlanetGettingLockedTo) then
-			HeartbeatConnection:Disconnect()
-			HeartbeatConnection = nil
-			assert("Orbit Disconnected")
+			if HeartbeatConnection then
+				HeartbeatConnection:Disconnect()
+				HeartbeatConnection = nil
+				assert("Orbit Disconnected")
+			end
 		end
 		
 		PlanetLocked.CFrame = CFrame.lookAt(PlanetLocked.Position, PlanetGettingLockedTo.Position) * CFrame.Angles(math.rad(TextureAdjustmentX), 0, math.rad(TextureAdjustmentZ))
@@ -43,7 +50,7 @@ function OrbitModule:TidalLocking(PlanetLocked : PVInstance, PlanetGettingLocked
 	return HeartbeatConnection
 end
 
-function OrbitModule:Rotation(PlanetRotating : PVInstance, RotationPeriod : number, Tilt : number, Reversed : boolean)
+function OrbitModule:Rotation(PlanetRotating : BasePart, RotationPeriod : number, Tilt : number, Reversed : boolean)
 	
 	if Tilt == nil then Tilt = 0 end
 	
@@ -55,9 +62,11 @@ function OrbitModule:Rotation(PlanetRotating : PVInstance, RotationPeriod : numb
 	HeartbeatConnection = RunService.Heartbeat:Connect(function(DeltaTime)
 		
 		if not PlanetRotating then
-			HeartbeatConnection:Disconnect()
-			HeartbeatConnection = nil
-			assert("Orbit Disconnected")
+			if HeartbeatConnection then
+				HeartbeatConnection:Disconnect()
+				HeartbeatConnection = nil
+				assert("Orbit Disconnected")
+			end
 		end
 		
 		local rotationAngle = (360 / RotationPeriod) * (0.016 * workspace.Values.TimeScale.Value)
@@ -68,7 +77,7 @@ function OrbitModule:Rotation(PlanetRotating : PVInstance, RotationPeriod : numb
 	return HeartbeatConnection
 end
 --Creating the Circular Orbit Function
-function OrbitModule:CircularOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrbited : PVInstance, TimeToOrbit : number, Retrograde: boolean)
+function OrbitModule:CircularOrbit(PlanetOrbiting : BasePart, PlanetGettingOrbited : BasePart, TimeToOrbit : number, Retrograde: boolean)
 	assert(PlanetOrbiting ~= PlanetGettingOrbited, "Cannot orbit itself, PlanetOrbiting and PlanetGettingOrbited should be different")
 	task.wait(HeartbeatWait)
 
@@ -82,9 +91,12 @@ function OrbitModule:CircularOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrb
 	HeartbeatConnection = RunService.Heartbeat:Connect(function(DeltaTime)
 		-- Disconnect the event if one of the planets got destroyed
 		if not (PlanetOrbiting or PlanetGettingOrbited) then
-			HeartbeatConnection:Disconnect()
-			HeartbeatConnection = nil
-			assert("Orbit Disconnected")
+			if HeartbeatConnection then
+				HeartbeatConnection:Disconnect()
+				HeartbeatConnection = nil
+				assert("Orbit Disconnected")
+			end
+			
 			return
 		end
 		
@@ -92,12 +104,14 @@ function OrbitModule:CircularOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrb
 		
 		task.wait(HeartbeatWait/10)
 		
-		if not model then
+		if HeartbeatConnection and not model then
 			HeartbeatConnection:Disconnect()
 			HeartbeatConnection = nil
 			assert("Orbit Disconnected")
 			return
 		end
+		
+		if not model then return end
 		-- Polar coordinates 2D
 		local x = Radius*CosineMath(Angle)*model:GetScale()
 		local y = Radius*SineMath(Angle)*model:GetScale()
@@ -117,7 +131,7 @@ function OrbitModule:CircularOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrb
 end
 
 
-function OrbitModule:EccentricOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrbited : PVInstance, TimeToOrbit : number, Eccentricity : number)
+function OrbitModule:EccentricOrbit(PlanetOrbiting : BasePart, PlanetGettingOrbited : BasePart, TimeToOrbit : number, Eccentricity : number)
 	assert(PlanetOrbiting ~= PlanetGettingOrbited, "Cannot orbit itself, PlanetOrbiting and PlanetGettingOrbited should be different")
 	
 	--Getting Our Difference, Radius and Angle
@@ -131,9 +145,11 @@ function OrbitModule:EccentricOrbit(PlanetOrbiting : PVInstance, PlanetGettingOr
 	HeartbeatConnection = RunService.Heartbeat:Connect(function(DeltaTime)
 		-- Disconnect the event if one of the planets got destroyed
 		if not (PlanetOrbiting or PlanetGettingOrbited) then
-			HeartbeatConnection:Disconnect()
-			HeartbeatConnection = nil
-			assert("Orbit Disconnected")
+			if HeartbeatConnection then
+				HeartbeatConnection:Disconnect()
+				HeartbeatConnection = nil
+				assert("Orbit Disconnected")
+			end
 		end
 
 		-- Polar coordinates 2D
@@ -150,7 +166,7 @@ function OrbitModule:EccentricOrbit(PlanetOrbiting : PVInstance, PlanetGettingOr
 
 end
 
-function OrbitModule:EllipticalOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrbited : PVInstance, TimeToOrbit : number, Ellipse : number)
+function OrbitModule:EllipticalOrbit(PlanetOrbiting : BasePart, PlanetGettingOrbited : BasePart, TimeToOrbit : number, Ellipse : number)
 	assert(PlanetOrbiting ~= PlanetGettingOrbited, "Cannot orbit itself, PlanetOrbiting and PlanetGettingOrbited should be different")
 
 	local DifferenceVector = PlanetOrbiting:GetPivot().Position-PlanetGettingOrbited:GetPivot().Position --Differnce
@@ -162,8 +178,11 @@ function OrbitModule:EllipticalOrbit(PlanetOrbiting : PVInstance, PlanetGettingO
 	HeartbeatConnection = RunService.Heartbeat:Connect(function(DeltaTime)
 		-- Disconnect the event if one of the planets got destroyed
 		if not (PlanetOrbiting or PlanetGettingOrbited) then
-			HeartbeatConnection:Disconnect()
-			HeartbeatConnection = nil
+			if HeartbeatConnection then
+				HeartbeatConnection:Disconnect()
+				HeartbeatConnection = nil
+				assert("Orbit Disconnected")
+			end
 		end
 		
 		local EllipseNumber = (Ellipse/10)
@@ -182,7 +201,7 @@ function OrbitModule:EllipticalOrbit(PlanetOrbiting : PVInstance, PlanetGettingO
 end
 
 
-function OrbitModule:ProperEccentricOrbit(PlanetOrbiting : PVInstance, PlanetGettingOrbited : PVInstance, Eccentricity : number, OrbitalPlane : number,TimeToOrbit: number, Retrograde: boolean, ArgOfLong: number, ArgOfPeri: number)
+function OrbitModule:ProperEccentricOrbit(PlanetOrbiting : BasePart, PlanetGettingOrbited : BasePart, Eccentricity : number, OrbitalPlane : number,TimeToOrbit: number, Retrograde: boolean, ArgOfLong: number, ArgOfPeri: number)
 	assert(PlanetOrbiting ~= PlanetGettingOrbited, "Cannot orbit itself, PlanetOrbiting and PlanetGettingOrbited should be different")
 	
 	 --Differnce
@@ -202,8 +221,11 @@ function OrbitModule:ProperEccentricOrbit(PlanetOrbiting : PVInstance, PlanetGet
 			local Dist = DifferenceVector.Magnitude
 			-- Disconnect the event if one of the planets got destroyed
 			if not (PlanetOrbiting or PlanetGettingOrbited) then
-				HeartbeatConnection:Disconnect()
-				HeartbeatConnection = nil
+				if HeartbeatConnection then
+					HeartbeatConnection:Disconnect()
+					HeartbeatConnection = nil
+					assert("Orbit Disconnected")
+				end
 			end
 			
 			local model = PlanetOrbiting:FindFirstAncestorOfClass("Model")
@@ -213,6 +235,8 @@ function OrbitModule:ProperEccentricOrbit(PlanetOrbiting : PVInstance, PlanetGet
 			local y
 			local z = 0
 			local offset
+			
+			if not model then return end
 			
 			x = ((Radius + (-Radius * (1 + Eccentricity)) / (Eccentricity - 1)) / 2)*CosineMath(Angle)*model:GetScale()
 			y = (((Radius + (-Radius * (1 + Eccentricity)) / (Eccentricity - 1)) / 2) * math.sqrt(1-Eccentricity^2))*SineMath(Angle)*model:GetScale()
@@ -258,8 +282,11 @@ function OrbitModule:ProperEccentricOrbit(PlanetOrbiting : PVInstance, PlanetGet
 					table.insert(tableValues, (os.clock() - startTime) / TimeToOrbit * workspace.Values.TimeScale.Value)
 					--print((os.clock() - startTime) / TimeToOrbit * workspace.Values.TimeScale.Value)
 				elseif math.round(math.deg(math.abs(Angle))) > 720 then
-					HeartbeatConnection:Disconnect()
-					HeartbeatConnection = nil
+					if HeartbeatConnection then
+						HeartbeatConnection:Disconnect()
+						HeartbeatConnection = nil
+						assert("Orbit Disconnected")
+					end
 				end
 			end
 		end)
