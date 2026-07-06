@@ -1,3 +1,6 @@
+--!strict
+--!optimize 2
+
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local tweenService = game:GetService("TweenService")
 
@@ -22,7 +25,7 @@ goalTextStroke.Transparency = 0
 
 local tweenInf = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
 
-warnEvent.Event:Connect(function(warning, duration)
+warnEvent.Event:Connect(function(warning:string, duration:number)
 	local warnFrame = warningTemplate:Clone()
 	
 	warnFrame.Parent = script.Parent
@@ -42,7 +45,7 @@ warnEvent.Event:Connect(function(warning, duration)
 	warnFrame.TextLabel.Text = warning
 	
 	if duration then
-		wait(duration)
+		task.wait(duration)
 
 		local shrink = tweenService:Create(warnFrame, tweenInf, goal)
 
@@ -52,7 +55,7 @@ warnEvent.Event:Connect(function(warning, duration)
 			warnFrame:Destroy()
 		end)
 	else
-		wait(2)
+		task.wait(2)
 
 		local shrink = tweenService:Create(warnFrame, tweenInf, goal)
 
