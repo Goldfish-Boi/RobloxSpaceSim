@@ -2,6 +2,7 @@
 All of the scripts I've made for my roblox space simulator! Initially started during the Summer of Making.
 
 ------------------------------Instructions for each UI button------------------------------
+
 UI buttons can be used by inputing a proper value into the textbox and pressing the button's corresponding star icon
 
 Load celestial body: Loads in the specified specified celestial body and it's respective major moons. Current celestial bodies available (Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto)
