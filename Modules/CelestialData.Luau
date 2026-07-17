@@ -170,7 +170,64 @@ local module = {
 			Name = "Saturn",
 			Rotation = {
 				RotationalPeriod = 10.56,
-				RotationalAngle = 26.73,
+				RotationalAngle = -26.73,
+			},
+		},
+		ARing = {
+			Name = "A Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		BRing = {
+			Name = "B Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		CRing = {
+			Name = "C Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		DRing = {
+			Name = "D Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		ERing = {
+			Name = "E Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		FRing = {
+			Name = "F Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		GRing = {
+			Name = "G Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = 0,
+			},
+		},
+		PhoebeRing = {
+			Name = "Phoebe Ring",
+			Rotation = {
+				RotationalPeriod = 10.56,
+				RotationalAngle = -175.2,
+				Laplace = true,
 			},
 		},
 		Titan = {
@@ -402,10 +459,25 @@ local module = {
 	},
 	PlutoSystem = {
 		Pluto = {
+			Name = "Barycentre",
+			Rotation = {
+				RotationalPeriod = 6.39 * 24,
+				RotationalAngle = 57,
+			},
+		},
+		--[[Pluto = {
 			Name = "Pluto",
 			Rotation = {
 				RotationalPeriod = 9.9250,
 				RotationalAngle = 3.13,
+			},
+			Orbit = {
+				OrbitalPeriod = 1.769130 * 24,
+				OrbitalAngle = 0.04,
+				OrbitalDistance = 21.6 * 2,
+				TextureAdjustmentX = 0,
+				TextureAdjustmentZ = 0,
+				Retrograde = false,
 			},
 		},
 		Charon = {
@@ -418,12 +490,12 @@ local module = {
 			Orbit = {
 				OrbitalPeriod = 1.769130 * 24,
 				OrbitalAngle = 0.04,
-				OrbitalDistance = 421.8 * 2,
+				OrbitalDistance = 19.570 * 2,
 				TextureAdjustmentX = 0,
 				TextureAdjustmentZ = 0,
 				Retrograde = false,
 			},
-		},
+		},]]--
 	},
 }
 
