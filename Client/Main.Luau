@@ -42,7 +42,12 @@ local lookAtButton = lookAt.ReassignButton
 local menuOpen = true
 local debounce = false
 
-workspace.Camera.CameraSubject = workspace.Centre
+local connection:RBXScriptConnection?
+
+repeat
+	workspace.Camera.CameraSubject = workspace.Centre
+until workspace.Camera.CameraSubject == workspace.Centre
+
 workspace.Camera.CameraType = Enum.CameraType.Custom
 
 workspace.Camera.Changed:Connect(function()
@@ -83,6 +88,17 @@ end)
 
 function load(input)
 	print("Generating")
+	
+	workspace.Camera.CameraSubject = workspace.Centre
+	
+	main.ImageLabel.Visible = false
+	main.StudDistance.Visible = false
+	main.KmDistance.Visible = false
+	
+	if connection then
+		connection:Disconnect()
+		connection = nil
+	end
 	
 	if input == "Sun" then
 		game.Lighting.Brightness = 0
@@ -133,6 +149,7 @@ function load(input)
 			
 			local createdObject = detectedObject:Clone()::BasePart
 			createdObject.Parent = workspace.Camera:FindFirstChild(input)
+			createdObject.Name = object.Name
 			
 			local eOrbit:{[string] : any} = object.EOrbit
 
@@ -254,8 +271,6 @@ scaleButton.MouseButton1Click:Connect(function()
 	adjustValue:FireServer("Scale", tonumber(scaleInput.Text))
 end)
 
-local connection:RBXScriptConnection?
-
 lookAtButton.MouseButton1Click:Connect(function()
 	if connection then
 		connection:Disconnect()
@@ -276,7 +291,7 @@ lookAtButton.MouseButton1Click:Connect(function()
 	
 	if not model then return end
 	
-	local objectToLookAt:BasePart = model:FindFirstChild(nameInput2.Text)::BasePart
+	local objectToLookAt:BasePart = model:FindFirstChild(nameInput2.Text, true)::BasePart
 	
 	if not objectToLookAt then
 		workspace.Camera.CameraType = Enum.CameraType.Custom
